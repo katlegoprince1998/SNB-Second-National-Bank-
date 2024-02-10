@@ -19,10 +19,9 @@
 
 # User Management:
 
-    POST /api/users: Create a new user.
     GET /api/users/{userId}: Retrieve user details.
     PUT /api/users/{userId}: Update user information.
-    DELETE /api/users/{userId}: Delete a user account.
+   
 
 # Authentication and Authorization:
 
