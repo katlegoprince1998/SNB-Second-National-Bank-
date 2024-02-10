@@ -18,10 +18,14 @@ import java.util.List;
 public class AccountDto {
     private Integer id;
     private Integer accountNo;
-    @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private double balance;
     private LocalDate creationDate;
     private User user;
-    private List<Transaction> transactions = new ArrayList<>();
+
+    public AccountDto(Integer id, Integer accountNo, AccountType accountType, double balance, LocalDate creationDate) {
+    }
+
+    public AccountDto(Integer id, Integer accountNo, AccountType accountType, double balance, LocalDate creationDate, Integer id1) {
+    }
 }

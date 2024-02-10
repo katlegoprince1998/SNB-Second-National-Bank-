@@ -4,6 +4,7 @@ import com.codeword.snb.config.JSONWebToken.CustomeUserDetails;
 import com.codeword.snb.config.JSONWebToken.JwtProvider;
 import com.codeword.snb.dto.UserDto;
 import com.codeword.snb.entity.User;
+
 import com.codeword.snb.exception.UserAlreadyExistException;
 import com.codeword.snb.repository.UserRepository;
 import com.codeword.snb.request.UserRequest;
@@ -34,6 +35,7 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
         String cellNo = userDto.getCellNo();
         String idNo = userDto.getIdNo();
 
+
         User isEmailExist = userRepository.findByEmail(email);
 
         if(isEmailExist != null){
@@ -42,9 +44,9 @@ public class AuthenticationServiceImplementation implements AuthenticationServic
         User createUser = User
                 .builder()
                 .email(email)
+                .idNo(idNo)
                 .firstname(firstname)
                 .lastname(lastname)
-                .cellNo(idNo)
                 .cellNo(cellNo)
                 .password(passwordEncoder.encode(password))
                 .build();

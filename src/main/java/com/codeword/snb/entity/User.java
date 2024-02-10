@@ -1,6 +1,6 @@
 package com.codeword.snb.entity;
 
-import com.codeword.snb.entity.userAddress.Address;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -27,8 +27,7 @@ public class User {
     private String cellNo;
     private String idNo;
     private String password;
-    @Embedded
-    private Address addresses;
+
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Account> accounts = new ArrayList<>();
