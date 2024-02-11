@@ -20,6 +20,7 @@ public class AccountDto {
     private Integer accountNo;
     private AccountType accountType;
     private double balance;
+    private String roundUpEnabled;
     private LocalDate creationDate;
     private User user;
 

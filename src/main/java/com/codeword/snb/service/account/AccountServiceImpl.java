@@ -6,6 +6,8 @@ import com.codeword.snb.entity.Account;
 import com.codeword.snb.entity.User;
 import com.codeword.snb.entity.accountType.AccountType;
 import com.codeword.snb.exception.BankAccountNotFoundException;
+import com.codeword.snb.exception.RoundUpAlreadyDisabledException;
+import com.codeword.snb.exception.RoundUpAlreadyEnabledException;
 import com.codeword.snb.exception.UserNotFoundException;
 import com.codeword.snb.repository.AccountRepository;
 import com.codeword.snb.repository.UserRepository;
@@ -29,15 +31,17 @@ public class AccountServiceImpl implements AccountService{
         if(existingUser.isPresent()){
             Account account = Account.builder()
                     .accountNo(accountDto.getAccountNo())
-
+                    .accountType(accountDto.getAccountType())
                     .user(existingUser.get())
                     .creationDate(LocalDate.now())
-                    .balance(accountDto.getBalance())
+                    .balance(0.0)
+                    .roundUpEnabled("Disabled")
                     .build();
 
             accountRepository.save(account);
             accountDto.setId(account.getId());
             accountDto.setCreationDate(LocalDate.now());
+            accountDto.setRoundUpEnabled("Disabled");
             accountDto.setUser(existingUser.get());
 
         }else{
@@ -72,10 +76,51 @@ public class AccountServiceImpl implements AccountService{
                     accountDto.setBalance(account.getBalance());
                     accountDto.setCreationDate(account.getCreationDate());
                     accountDto.setUser(account.getUser());
-
                     return accountDto;
                 })
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public String enableRoundUp(Integer accountId) throws BankAccountNotFoundException, RoundUpAlreadyEnabledException {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isPresent()){
+            Account account1 = account.get();
+            if (!account1.getRoundUpEnabled().equals("Enabled")){
+                account1.setRoundUpEnabled("Enabled");
+                accountRepository.save(account1);
+            }else{
+                throw new RoundUpAlreadyEnabledException("Round up already enabled");
+            }
+        }
+        return "Round Up Enabled";
+    }
+
+    @Override
+    public String disableRoundUp(Integer accountId) throws BankAccountNotFoundException, RoundUpAlreadyDisabledException {
+        Optional<Account> account = accountRepository.findById(accountId);
+        if (account.isPresent()){
+            Account account1 = account.get();
+            if (!account1.getRoundUpEnabled().equals("Disabled")){
+                account1.setRoundUpEnabled("Disabled");
+                accountRepository.save(account1);
+            }else{
+                throw new RoundUpAlreadyDisabledException("Round up already disabled");
+            }
+        }
+        return "Round Up Disabled";
+    }
+
+    @Override
+    public void deleteAccount(Integer accountId) throws BankAccountNotFoundException {
+        Optional<Account> existingAccount = accountRepository.findById(accountId);
+        if (existingAccount.isPresent()){
+            accountRepository.delete(existingAccount.get());
+
+        }else{
+            throw new BankAccountNotFoundException("Account with this id was not found");
+        }
+
     }
 
 }

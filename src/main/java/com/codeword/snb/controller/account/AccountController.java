@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1/account/")
 @RequiredArgsConstructor
@@ -55,4 +58,38 @@ public class AccountController {
             return new ResponseEntity<>("Failed to get Accounts", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Integer id) {
+        Map<String, String> deleted = new HashMap<>();
+        try {
+            accountService.deleteAccount(id);
+            deleted.put("message", "Account deleted successfully");
+            return ResponseEntity.ok(deleted);
+        } catch (Exception e) {
+            deleted.put("error", "Failed to delete account");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(deleted);
+        }
+    }
+    @PutMapping("/enable/{id}")
+    public ResponseEntity<String> enable(@PathVariable Integer id){
+        try{
+            String enabled = accountService.enableRoundUp(id);
+            return new ResponseEntity<>(enabled, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to enable Round up", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+    @PutMapping("/disable/{id}")
+    public ResponseEntity<String> disable(@PathVariable Integer id){
+        try{
+            String disable = accountService.disableRoundUp(id);
+            return new ResponseEntity<>(disable, HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to disable Round up", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
 }

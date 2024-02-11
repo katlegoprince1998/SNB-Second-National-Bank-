@@ -24,10 +24,13 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private double balance;
+    private String roundUpEnabled;
     private LocalDate creationDate;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account", orphanRemoval = true)
     private List<Transaction> transactions = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "account", orphanRemoval = true)
+    private List<RoundUpTransaction> roundUpTransaction = new ArrayList<>();
 }
