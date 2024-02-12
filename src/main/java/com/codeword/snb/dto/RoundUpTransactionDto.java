@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 public class RoundUpTransactionDto {
     private Integer id;
-    private BigDecimal roundedUpAmount;
+    private double roundedUpAmount;
     private LocalDate day;
     private Account account;
 }

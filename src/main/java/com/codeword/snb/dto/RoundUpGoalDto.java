@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 public class RoundUpGoalDto {
     private Integer id;
     private String goalName;
-    private BigDecimal targetAmount;
-    private BigDecimal currentAmount;
+    private double targetAmount;
+    private double currentAmount;
     private Account account;
 }

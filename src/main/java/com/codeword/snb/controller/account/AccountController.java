@@ -3,6 +3,7 @@ package com.codeword.snb.controller.account;
 import com.codeword.snb.dto.AccountDto;
 import com.codeword.snb.dto.UserDto;
 import com.codeword.snb.entity.User;
+import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.UserNotFoundException;
 import com.codeword.snb.service.account.AccountService;
 import com.codeword.snb.service.user.UserService;
@@ -60,16 +61,13 @@ public class AccountController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Map<String, String>> delete(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Integer id) throws BankAccountNotFoundException {
         Map<String, String> deleted = new HashMap<>();
-        try {
+
             accountService.deleteAccount(id);
             deleted.put("message", "Account deleted successfully");
             return ResponseEntity.ok(deleted);
-        } catch (Exception e) {
-            deleted.put("error", "Failed to delete account");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(deleted);
-        }
+
     }
     @PutMapping("/enable/{id}")
     public ResponseEntity<String> enable(@PathVariable Integer id){

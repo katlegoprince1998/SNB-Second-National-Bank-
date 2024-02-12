@@ -3,6 +3,7 @@ package com.codeword.snb.service.account;
 import com.codeword.snb.dto.AccountDto;
 import com.codeword.snb.dto.UserDto;
 import com.codeword.snb.entity.Account;
+import com.codeword.snb.entity.RoundUpGoal;
 import com.codeword.snb.entity.User;
 import com.codeword.snb.entity.accountType.AccountType;
 import com.codeword.snb.exception.BankAccountNotFoundException;
@@ -10,6 +11,7 @@ import com.codeword.snb.exception.RoundUpAlreadyDisabledException;
 import com.codeword.snb.exception.RoundUpAlreadyEnabledException;
 import com.codeword.snb.exception.UserNotFoundException;
 import com.codeword.snb.repository.AccountRepository;
+import com.codeword.snb.repository.RoundUpGoalRepository;
 import com.codeword.snb.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService{
     private final AccountRepository accountRepository;
     private final UserRepository userRepository;
+    private final RoundUpGoalRepository roundUpGoalRepository;
     @Override
     public AccountDto createAccount(AccountDto accountDto,
                                     UserDto userDto) throws UserNotFoundException {
@@ -89,6 +92,13 @@ public class AccountServiceImpl implements AccountService{
             if (!account1.getRoundUpEnabled().equals("Enabled")){
                 account1.setRoundUpEnabled("Enabled");
                 accountRepository.save(account1);
+                RoundUpGoal roundUpGoal = RoundUpGoal
+                        .builder()
+                        .goalName("Round Up Savings")
+                        .account(account1)
+                        .currentAmount(0.0)
+                        .build();
+                roundUpGoalRepository.save(roundUpGoal);
             }else{
                 throw new RoundUpAlreadyEnabledException("Round up already enabled");
             }
@@ -104,6 +114,7 @@ public class AccountServiceImpl implements AccountService{
             if (!account1.getRoundUpEnabled().equals("Disabled")){
                 account1.setRoundUpEnabled("Disabled");
                 accountRepository.save(account1);
+
             }else{
                 throw new RoundUpAlreadyDisabledException("Round up already disabled");
             }

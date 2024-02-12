@@ -13,7 +13,6 @@ public interface AccountService {
     AccountDto createAccount(AccountDto accountDto, UserDto userDto) throws UserNotFoundException;
     AccountDto getAccountId(Integer id) throws BankAccountNotFoundException;
     List<AccountDto> getAccount();
-
     String enableRoundUp(Integer accountId) throws BankAccountNotFoundException, RoundUpAlreadyEnabledException;
     String disableRoundUp(Integer accountId) throws BankAccountNotFoundException, RoundUpAlreadyDisabledException;
     void deleteAccount(Integer accountId) throws BankAccountNotFoundException;

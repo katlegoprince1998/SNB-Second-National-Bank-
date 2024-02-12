@@ -18,9 +18,12 @@ public class RoundUpGoal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String goalName;
-    private BigDecimal targetAmount;
-    private BigDecimal currentAmount;
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private User user;
+    private double targetAmount;
+    private double currentAmount;
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
+
+
+
 }

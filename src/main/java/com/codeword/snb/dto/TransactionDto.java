@@ -18,6 +18,8 @@ public class TransactionDto {
     private double amount;
     private LocalDate day;
     private LocalDate time;
+    private double charges;
+    private double chargesPercentage;
     private TransactionType transactionType;
     private Account account;
 }
