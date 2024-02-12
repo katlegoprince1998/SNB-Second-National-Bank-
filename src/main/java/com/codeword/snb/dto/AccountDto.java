@@ -17,7 +17,11 @@ import java.util.List;
 
 public class AccountDto {
     private Integer id;
-    private Integer accountNo;
+    private String accountNo;
+    private String cvv;
+    private String pin;
+    private String cardNo;
+    private String expiryDate;
     private AccountType accountType;
     private double balance;
     private String roundUpEnabled;

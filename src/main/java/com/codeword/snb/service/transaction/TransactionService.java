@@ -6,7 +6,7 @@ import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.InsufficientFundsException;
 
 public interface TransactionService {
-   TransactionDto createTransaction(TransactionDto transactionDto,
+   void createTransaction(TransactionDto transactionDto,
                                     AccountDto accountDto) throws InsufficientFundsException, BankAccountNotFoundException;
 
 }

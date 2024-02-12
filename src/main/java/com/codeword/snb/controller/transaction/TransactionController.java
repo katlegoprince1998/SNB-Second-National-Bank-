@@ -29,17 +29,14 @@ public class TransactionController {
 
         try {
             AccountDto accountDto = accountService.getAccountId(accountId);
-            TransactionDto transaction = transactionService.createTransaction(transactionDto, accountDto);
-            return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+             transactionService.createTransaction(transactionDto, accountDto);
+            return new ResponseEntity<>("Created", HttpStatus.CREATED);
         } catch (BankAccountNotFoundException ex) {
             // Handle BankAccountNotFoundException
             return new ResponseEntity<>("Bank account not found", HttpStatus.NOT_FOUND);
         } catch (InsufficientFundsException ex) {
             // Handle InsufficientFundsException
             return new ResponseEntity<>("Insufficient funds", HttpStatus.BAD_REQUEST);
-        } catch (Exception ex) {
-            // Handle other unexpected exceptions
-            return new ResponseEntity<>("Unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

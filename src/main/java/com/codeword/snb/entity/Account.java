@@ -20,7 +20,11 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    private Integer accountNo;
+    private String accountNo;
+    private String cvv;
+    private String pin;
+    private String cardNo;
+    private String expiryDate;
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private double balance;
