@@ -10,24 +10,54 @@ import com.codeword.snb.entity.transactionType.TransactionType;
 import com.codeword.snb.exception.AccountAlreadyExistExcetion;
 import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.InsufficientFundsException;
+import com.codeword.snb.exception.TransactionNotFoundException;
 import com.codeword.snb.repository.AccountRepository;
 import com.codeword.snb.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
+    @Override
+    public TransactionDto getTransaction(Integer id) throws TransactionNotFoundException {
+        Optional<Transaction> transaction = transactionRepository.findById(id);
+        TransactionDto transactionDto = new TransactionDto();
+        if (transaction.isPresent()){
+            Transaction transaction1 = transaction.get();
+            BeanUtils.copyProperties(transaction1, transactionDto);
 
+        }else {
+            throw new TransactionNotFoundException("Transaction not found");
+        }
+        return transactionDto;
+    }
 
+    @Override
+    public List<TransactionDto> getTransactions() {
+        List<Transaction> transactions = transactionRepository.findAll();
+
+        return transactions.stream().map(transaction -> new TransactionDto(
+                transaction.getId(),
+                transaction.getTransactionType(),
+                transaction.getAmount(),
+                transaction.getChargesPercentage(),
+                transaction.getDay(),
+                transaction.getTime()
+        )).toList();
+    }
     @Override
     public void createTransaction(TransactionDto transactionDto, AccountDto accountDto)
             throws InsufficientFundsException, BankAccountNotFoundException {
@@ -38,7 +68,6 @@ public class TransactionServiceImpl implements TransactionService {
             String accountType = String.valueOf(account.getAccountType());
             String transactionType = String.valueOf(transactionDto.getTransactionType());
             double balance =  account.getBalance();
-
 
             switch (accountType){
                 case "SAVINGS", "CHECKING":
@@ -88,8 +117,6 @@ public class TransactionServiceImpl implements TransactionService {
         }else{
             throw new BankAccountNotFoundException("Account with this account was not found");
         }
-
-
     }
     private void saveTransactions( String transType,
                                   Account accId, LocalDate day, LocalTime time,

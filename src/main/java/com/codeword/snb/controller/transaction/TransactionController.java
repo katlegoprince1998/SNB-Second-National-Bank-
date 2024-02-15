@@ -6,6 +6,7 @@ import com.codeword.snb.entity.Transaction;
 import com.codeword.snb.exception.AccountAlreadyExistExcetion;
 import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.InsufficientFundsException;
+import com.codeword.snb.exception.TransactionNotFoundException;
 import com.codeword.snb.service.account.AccountService;
 import com.codeword.snb.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RequiredArgsConstructor
@@ -38,6 +40,26 @@ public class TransactionController {
         } catch (InsufficientFundsException ex) {
             // Handle InsufficientFundsException
             return new ResponseEntity<>("Insufficient funds", HttpStatus.BAD_REQUEST);
+        }
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<Object> getTransactionsById(@PathVariable Integer id)
+            throws TransactionNotFoundException {
+        TransactionDto transactionDto = transactionService.getTransaction(id);
+        try{
+            return new ResponseEntity<>(transactionDto, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Failed to get data", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/get")
+    public ResponseEntity<Object> getTransactions()
+            throws TransactionNotFoundException {
+        List<TransactionDto> transactionDto = transactionService.getTransactions();
+        try{
+            return new ResponseEntity<>(transactionDto, HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>("Failed to get data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
