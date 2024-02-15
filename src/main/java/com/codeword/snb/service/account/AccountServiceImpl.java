@@ -5,11 +5,7 @@ import com.codeword.snb.dto.UserDto;
 import com.codeword.snb.entity.Account;
 import com.codeword.snb.entity.RoundUpGoal;
 import com.codeword.snb.entity.User;
-import com.codeword.snb.entity.accountType.AccountType;
-import com.codeword.snb.exception.BankAccountNotFoundException;
-import com.codeword.snb.exception.RoundUpAlreadyDisabledException;
-import com.codeword.snb.exception.RoundUpAlreadyEnabledException;
-import com.codeword.snb.exception.UserNotFoundException;
+import com.codeword.snb.exception.*;
 import com.codeword.snb.repository.AccountRepository;
 import com.codeword.snb.repository.RoundUpGoalRepository;
 import com.codeword.snb.repository.UserRepository;
@@ -32,7 +28,7 @@ public class AccountServiceImpl implements AccountService{
     Random random = new Random();
     @Override
     public AccountDto createAccount(AccountDto accountDto,
-                                    UserDto userDto) throws UserNotFoundException {
+                                    UserDto userDto) throws UserNotFoundException  {
         Optional<User> existingUser = userRepository.findById(userDto.getId());
 
         if(existingUser.isPresent()){
@@ -161,9 +157,8 @@ public class AccountServiceImpl implements AccountService{
         // Get the current year
         int currentYear = Year.now().getValue();
         // Add five years
-        int futureYear = currentYear + 5;
 
-        return futureYear;
+        return currentYear + 5;
     }
 
 }

@@ -7,10 +7,10 @@ import com.codeword.snb.exception.BankAccountNotFoundException;
 
 public interface RoundUpService {
 
-    RoundUpGoalDto getRoundUp(AccountDto accountDto)
+    RoundUpGoalDto getRoundUp(Integer id)
             throws BankAccountNotFoundException;
 
-    void createRoundUp(AccountDto accountDto) throws BankAccountNotFoundException;
+    void createRoundUp(Integer id, AccountDto accountDto) throws BankAccountNotFoundException;
 
 
 

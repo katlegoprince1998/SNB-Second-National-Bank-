@@ -2,10 +2,7 @@ package com.codeword.snb.service.account;
 
 import com.codeword.snb.dto.AccountDto;
 import com.codeword.snb.dto.UserDto;
-import com.codeword.snb.exception.BankAccountNotFoundException;
-import com.codeword.snb.exception.RoundUpAlreadyDisabledException;
-import com.codeword.snb.exception.RoundUpAlreadyEnabledException;
-import com.codeword.snb.exception.UserNotFoundException;
+import com.codeword.snb.exception.*;
 
 import java.util.List;
 
