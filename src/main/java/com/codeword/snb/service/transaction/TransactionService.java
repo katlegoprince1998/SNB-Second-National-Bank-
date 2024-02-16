@@ -2,6 +2,7 @@ package com.codeword.snb.service.transaction;
 
 import com.codeword.snb.dto.AccountDto;
 import com.codeword.snb.dto.TransactionDto;
+import com.codeword.snb.entity.Transaction;
 import com.codeword.snb.exception.AccountAlreadyExistExcetion;
 import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.InsufficientFundsException;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public interface TransactionService {
    TransactionDto getTransaction(Integer id) throws TransactionNotFoundException;
-   List<TransactionDto> getTransactions();
+   List<Transaction> getTransactions();
    void createTransaction(TransactionDto transactionDto,
                                     AccountDto accountDto) throws InsufficientFundsException, BankAccountNotFoundException;
 

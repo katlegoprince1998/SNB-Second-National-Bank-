@@ -43,24 +43,20 @@ public class TransactionController {
         }
     }
     @GetMapping("/get/{id}")
-    public ResponseEntity<Object> getTransactionsById(@PathVariable Integer id)
-            throws TransactionNotFoundException {
-        TransactionDto transactionDto = transactionService.getTransaction(id);
+    public ResponseEntity<Object> getTransactionsById(@PathVariable Integer id) throws TransactionNotFoundException {
         try{
+            TransactionDto transactionDto =
+                    transactionService.getTransaction(id);
             return new ResponseEntity<>(transactionDto, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("Failed to get data", HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch (Exception e){
+            return new ResponseEntity<>("Failed to get Transactions", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/get")
-    public ResponseEntity<Object> getTransactions()
-            throws TransactionNotFoundException {
-        List<TransactionDto> transactionDto = transactionService.getTransactions();
-        try{
-            return new ResponseEntity<>(transactionDto, HttpStatus.OK);
-        } catch (Exception e){
-            return new ResponseEntity<>("Failed to get data", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<Object> getTransactions() {
+        List<Transaction> transactionDtoList = transactionService.getTransactions();
+        return ResponseEntity.ok(transactionDtoList);
     }
 
 }

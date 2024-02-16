@@ -35,29 +35,21 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDto getTransaction(Integer id) throws TransactionNotFoundException {
         Optional<Transaction> transaction = transactionRepository.findById(id);
         TransactionDto transactionDto = new TransactionDto();
-        if (transaction.isPresent()){
+        if(transaction.isPresent()){
             Transaction transaction1 = transaction.get();
             BeanUtils.copyProperties(transaction1, transactionDto);
-
         }else {
-            throw new TransactionNotFoundException("Transaction not found");
+            throw new TransactionNotFoundException("Account was not found");
         }
         return transactionDto;
     }
 
     @Override
-    public List<TransactionDto> getTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
-
-        return transactions.stream().map(transaction -> new TransactionDto(
-                transaction.getId(),
-                transaction.getTransactionType(),
-                transaction.getAmount(),
-                transaction.getChargesPercentage(),
-                transaction.getDay(),
-                transaction.getTime()
-        )).toList();
+    public List<Transaction> getTransactions() {
+       return transactionRepository.findAll();
     }
+
+
     @Override
     public void createTransaction(TransactionDto transactionDto, AccountDto accountDto)
             throws InsufficientFundsException, BankAccountNotFoundException {
