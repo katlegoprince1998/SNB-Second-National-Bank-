@@ -11,8 +11,7 @@ import com.codeword.snb.exception.TransactionNotFoundException;
 import java.util.List;
 
 public interface TransactionService {
-   TransactionDto getTransaction(Integer id) throws TransactionNotFoundException;
-   List<Transaction> getTransactions();
+
    void createTransaction(TransactionDto transactionDto,
                                     AccountDto accountDto) throws InsufficientFundsException, BankAccountNotFoundException;
 

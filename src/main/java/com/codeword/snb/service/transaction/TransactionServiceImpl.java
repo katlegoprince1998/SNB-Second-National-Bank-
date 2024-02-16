@@ -19,8 +19,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collector;
@@ -31,23 +34,6 @@ import java.util.stream.Collectors;
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
-    @Override
-    public TransactionDto getTransaction(Integer id) throws TransactionNotFoundException {
-        Optional<Transaction> transaction = transactionRepository.findById(id);
-        TransactionDto transactionDto = new TransactionDto();
-        if(transaction.isPresent()){
-            Transaction transaction1 = transaction.get();
-            BeanUtils.copyProperties(transaction1, transactionDto);
-        }else {
-            throw new TransactionNotFoundException("Account was not found");
-        }
-        return transactionDto;
-    }
-
-    @Override
-    public List<Transaction> getTransactions() {
-       return transactionRepository.findAll();
-    }
 
 
     @Override
