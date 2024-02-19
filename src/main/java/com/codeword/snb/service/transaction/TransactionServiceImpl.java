@@ -4,30 +4,20 @@ import com.codeword.snb.constants.Charges;
 import com.codeword.snb.dto.AccountDto;
 import com.codeword.snb.dto.TransactionDto;
 import com.codeword.snb.entity.Account;
-import com.codeword.snb.entity.RoundUpGoal;
 import com.codeword.snb.entity.Transaction;
 import com.codeword.snb.entity.transactionType.TransactionType;
-import com.codeword.snb.exception.AccountAlreadyExistExcetion;
 import com.codeword.snb.exception.BankAccountNotFoundException;
 import com.codeword.snb.exception.InsufficientFundsException;
-import com.codeword.snb.exception.TransactionNotFoundException;
 import com.codeword.snb.repository.AccountRepository;
 import com.codeword.snb.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 
     @Override
-    public void createTransaction(TransactionDto transactionDto, AccountDto accountDto)
+    public Transaction createTransaction(TransactionDto transactionDto, AccountDto accountDto)
             throws InsufficientFundsException, BankAccountNotFoundException {
         Optional<Account> getAccount = accountRepository.findById(accountDto.getId());
 
@@ -95,6 +85,7 @@ public class TransactionServiceImpl implements TransactionService {
         }else{
             throw new BankAccountNotFoundException("Account with this account was not found");
         }
+        return null;
     }
     private void saveTransactions( String transType,
                                   Account accId, LocalDate day, LocalTime time,

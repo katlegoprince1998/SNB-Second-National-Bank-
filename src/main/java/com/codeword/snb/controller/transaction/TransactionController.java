@@ -39,8 +39,8 @@ public class TransactionController {
 
         try {
             AccountDto accountDto = accountService.getAccountId(accountId);
-             transactionService.createTransaction(transactionDto, accountDto);
-            return new ResponseEntity<>("Created", HttpStatus.CREATED);
+             Transaction transaction = transactionService.createTransaction(transactionDto, accountDto);
+            return new ResponseEntity<>("Transaction Made Successfully", HttpStatus.CREATED);
         } catch (BankAccountNotFoundException ex) {
             // Handle BankAccountNotFoundException
             return new ResponseEntity<>("Bank account not found", HttpStatus.NOT_FOUND);

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/round/")
+@RequestMapping("/api/v1/")
 public class RoundUp {
     private final RoundUpService roundUpService;
     private final AccountService accountService;
 
-    @PutMapping("/round/{id}/{round_id}")
+    @PutMapping("/round/account/{id}/{round_id}")
     public ResponseEntity<Object> roundUp(@PathVariable  Integer id,
                                           @PathVariable  Integer round_id) throws BankAccountNotFoundException {
         AccountDto accountDto = accountService.getAccountId(id);
